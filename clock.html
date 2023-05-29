@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<!--
+tts_clock.html
+Version: 1.1  @2023/05/28
+Wenchin Hsieh @Goomo.Net Studio, wenchin@goomo.net
+-->
+
+<html lang="zh-tw">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Clock TTS</title>
+    <style>
+        button {
+            height: 35px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Clock TTS</h1>
+    <p>現在時刻： <span id="clock"></span></p>
+    <button id="start" onclick="startTTS()">Start</button>
+    <button id="stop" onclick="stopTTS()" disabled>Stop</button>
+
+    <script>
+        const period = 10000;  // 每隔 10 秒 TTS 一次
+
+        // Function to update the time
+        function updateTime() {
+            const currentTime = new Date();
+            const timeElement = document.getElementById("clock");
+            timeElement.textContent = currentTime.toLocaleTimeString();
+        }
+
+        // Function to speak the time using TTS
+        function speakTime() {
+            const currentTime = new Date();
+            const timeString = currentTime.toLocaleTimeString();
+            const speech = new SpeechSynthesisUtterance();
+            speech.text = timeString;
+            window.speechSynthesis.speak(speech);
+        }
+
+        let ttsInterval;
+
+        // Function to start TTS every 10 seconds
+        function startTTS() {
+            document.getElementById("start").disabled = true;
+            document.getElementById("stop").disabled = false;
+            speakTime();
+            ttsInterval = setInterval(speakTime, period);
+        }
+
+        // Function to stop TTS
+        function stopTTS() {
+            clearInterval(ttsInterval);
+            document.getElementById("stop").disabled = true;
+            document.getElementById("start").disabled = false;
+        }
+
+        // Start updating the time
+        setInterval(updateTime, 1000);
+    </script>
+</body>
+
+</html>
