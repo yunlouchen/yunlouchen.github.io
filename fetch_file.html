@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Fetch and Display Text File</title>
+</head>
+
+<body>
+    <h2>Fetch and Display Text File</h2>
+    <p>
+        <label for="fName">檔名：</label>
+        <input id="fName" type="text" value="hello.txt">
+        <button id="toFetch" onclick="toFetch()">讀取</button>
+    </p>
+    <textarea id="fContent" rows="10" style="width:99%"></textarea>
+
+    <script>
+        let fContent = document.getElementById('fContent');
+        let fName = document.getElementById('fName');
+
+        function toFetch() {
+            fetch(fName.value)
+                .then(response => response.text())
+                .then(data => {
+                    fContent.value = data;
+                })
+                .catch(error => {
+                    console.log('Error:', error);
+                });
+        }
+    </script>
+
+</body>
+
+</html>
